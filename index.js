@@ -8,14 +8,16 @@ d3.json(queryUrl, function(data) {
 });
 
 function createFeatures(earthquakeData) {
-
     // Define a function to make markers
     function markCircle(feature, latlng) {
+        var mag = feature.properties.mag;
         var MarkerStyle = {
-            radius: markerSize(feature.properties.mag),
-            color: "steelblue",
-            weight: 1,
-            fillOpacity: 0.75
+            radius: markerSize(mag),
+            fillColor: markerColor(mag),
+            stroke: true,
+            color: 'black',
+            weight: 0.5,
+            fillOpacity: 0.85
         };
         return L.circleMarker(latlng, MarkerStyle);
     };
@@ -23,6 +25,31 @@ function createFeatures(earthquakeData) {
     // Define a markerSize function that will give each marker a different radius based on its magnitude
     function markerSize(magnitude) {
         return (magnitude * 5);
+    };
+
+    // Define a function that will give each marker a different color based on its magnitude
+    function markerColor(fill) {
+        switch (true) {
+            case (fill < 1): 
+                color = "#99CC00"; 
+                break;
+            case (fill < 2): 
+                color = "#CCFF33";
+                break;
+            case (fill < 3): 
+                color = "#FFCC00";
+                break;
+            case (fill < 4): 
+                color = "#FF9900";
+                break;
+            case (fill < 5): 
+                color = "#FF5050";
+                break;
+            default: 
+                color = "#FF0000";
+                break;
+        }
+        return color;
     };
     
     // Define a function we want to run once for each feature in the features array
@@ -68,7 +95,7 @@ function createMap(earthquakes) {
     // Create map with layers to display on load
     var myMap = L.map("map", {
         center: [37.09, -95.71],
-        zoom: 5,
+        zoom: 3,
         layers: [streetmap, earthquakes]
     });
     // Create a layer control, pass the baseMaps and overlayMaps, and add the layer control to the map
@@ -76,4 +103,21 @@ function createMap(earthquakes) {
         .layers(baseMaps, overlayMaps, {
             collapsed: false
         }).addTo(myMap);
+    // Build a legend
+    var legend = L.control({position: 'bottomright'});
+    legend.onAdd = function (map) {
+        // Creates a div with class="info legend"
+        var div = L.DomUtil.create('div', 'info legend');
+        // Sets the html code inside the div
+        div.innerHTML = 'Magnitude<hr>';
+        div.innerHTML += '<table><tr><td style="background-color: #99CC00;">&nbsp;</td><td>0-1</td></tr></table>';
+        div.innerHTML += '<table><tr><td style="background-color: #CCFF33;">&nbsp;</td><td>1-2</td></tr></table>';
+        div.innerHTML += '<table><tr><td style="background-color: #FFCC00;">&nbsp;</td><td>2-3</td></tr></table>';
+        div.innerHTML += '<table><tr><td style="background-color: #FF9900;">&nbsp;</td><td>3-4</td></tr></table>';
+        div.innerHTML += '<table><tr><td style="background-color: #FF5050;">&nbsp;</td><td>4-5</td></tr></table>';
+        div.innerHTML += '<table><tr><td style="background-color: #FF0000;;">&nbsp;</td><td>5+</td></tr></table>';
+        return div;
+    };
+    // Add legend to myMap
+    legend.addTo(myMap);
 };
