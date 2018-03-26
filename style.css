@@ -14,3 +14,17 @@ body {
   h1 {
     text-align: center;
   }
+
+  td {
+    width: 20px;
+  }
+
+  .legend {
+    padding: 10px;
+    font-family: Arial;
+    line-height: 18px;
+    color: #555;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
