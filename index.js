@@ -8,42 +8,53 @@ d3.json(queryUrl, function(data) {
 });
 
 function createFeatures(earthquakeData) {
+
+    // Define a function to make markers
+    function markCircle(feature, latlng) {
+        var MarkerStyle = {
+            radius: markerSize(feature.properties.mag),
+            color: "steelblue",
+            weight: 1,
+            fillOpacity: 0.75
+        };
+        return L.circleMarker(latlng, MarkerStyle);
+    };
+
     // Define a markerSize function that will give each marker a different radius based on its magnitude
     function markerSize(magnitude) {
-    return magnitude / 25;
-    }
-
+        return (magnitude * 5);
+    };
+    
     // Define a function we want to run once for each feature in the features array
-    // Give each feature a popup describing the place and time of the earthquake
+    // Give each feature a popup describing details of the earthquake
     function handleFeature(feature, layer) {
-        layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
-    }
+        layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>Magnitude: " + feature.properties.mag + 
+        "<br>" + new Date(feature.properties.time) + "</p>");
+    };
 
     // Create a GeoJSON layer containing the features array on the earthquakeData object
     // Run the handleFeature function once for each piece of data in the array
     var earthquakes = L.geoJSON(earthquakeData, {
+        pointToLayer: markCircle,
         onEachFeature: handleFeature
         }
     );
 
     // Send earthquakes layer to the createMap function
     createMap(earthquakes);
-}
+};
 
 function createMap(earthquakes) {
     // Define base map layers
     var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?" +
     "access_token=pk.eyJ1Ijoidml6enZrIiwiYSI6ImNqZHdnbnloMjA1dWkyd3Fwb2pxY2V6bm0ifQ." +
     "m-DBiNzfVSK62XU2mX04SQ");
-
     var outdoormap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/outdoors-v9/tiles/256/{z}/{x}/{y}?" +
     "access_token=pk.eyJ1Ijoidml6enZrIiwiYSI6ImNqZHdnbnloMjA1dWkyd3Fwb2pxY2V6bm0ifQ." +
     "m-DBiNzfVSK62XU2mX04SQ");
-
     var satellitemap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/256/{z}/{x}/{y}?" +
     "access_token=pk.eyJ1Ijoidml6enZrIiwiYSI6ImNqZHdnbnloMjA1dWkyd3Fwb2pxY2V6bm0ifQ." +
     "m-DBiNzfVSK62XU2mX04SQ");
-
     // Define a baseMaps object to hold base layers
     var baseMaps = {
         "Street": streetmap,
@@ -65,4 +76,4 @@ function createMap(earthquakes) {
         .layers(baseMaps, overlayMaps, {
             collapsed: false
         }).addTo(myMap);
-}
+};
