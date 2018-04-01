@@ -123,7 +123,7 @@ function createMap(earthquakes) {
     };
     // Create map with layers to display on load
     var myMap = L.map("map", {
-        center: [37.09, -95.71],
+        center: [37.09, -29.77],
         zoom: 3,
         layers: [streetmap, earthquakes, faultLines]
     });
