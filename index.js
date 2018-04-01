@@ -26,7 +26,7 @@ function createFaultLines(faultLineData) {
     // Define a function we want to run once for each feature in the features array
     // Give each feature a popup describing details of the fault line
     function onEachFeature(feature, layer) {
-        var faultContent = "<h3>Name: " + feature.properties.Name + "</h3><hr>Coordiantes: (" + feature.geometry.coordinates[0][1]  + "," + feature.geometry.coordinates[0][0] + ")";
+        var faultContent = "<h3>Name: " + feature.properties.Name + "</h3><hr>Coordinates: (" + feature.geometry.coordinates[0][1]  + "," + feature.geometry.coordinates[0][0] + ")";
         layer.bindPopup(faultContent).addTo(faultLines);
     };
     // Create a GeoJSON layer containing the features array on the faultLineData object
