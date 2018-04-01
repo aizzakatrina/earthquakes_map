@@ -135,8 +135,8 @@ function createMap(earthquakes) {
     // Build a legend
     var legend = L.control({position: 'bottomright'});
     legend.onAdd = function (map) {
-        // Creates a div with class="info legend"
-        var div = L.DomUtil.create('div', 'info legend'),
+        // Creates a div with class="info-legend"
+        var div = L.DomUtil.create('div', 'info-legend'),
             labels = ['0-1','1-2','2-3','3-4','4-5','5+'],
             colors = ['99CC00','CCFF33','FFCC00','FF9900','FF5050','FF0000'];
         // Sets the html code inside the div
@@ -148,4 +148,13 @@ function createMap(earthquakes) {
     };
     // Add legend to myMap
     legend.addTo(myMap);
+    // Build map title
+    var mapTitle = L.control({position: 'bottomleft'});
+    mapTitle.onAdd = function (map) {
+        // Creates a div with class="map-title"
+        var div = L.DomUtil.create('div', 'map-title');
+        div.innerHTML = '<h1>Live Earthquakes Map</h1>Data source: <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php" target="new_">USGS</a>';
+        return div;
+    };
+    mapTitle.addTo(myMap);
 };
