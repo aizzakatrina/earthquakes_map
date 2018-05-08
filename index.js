@@ -153,7 +153,7 @@ function createMap(earthquakes) {
     mapTitle.onAdd = function (map) {
         // Creates a div with class="map-title"
         var div = L.DomUtil.create('div', 'map-title');
-        div.innerHTML = '<h1>Live Earthquakes Map</h1>Data source: <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php" target="new_">USGS</a>';
+        div.innerHTML = '<h1>Live Earthquakes Map</h1>Earthquakes within the past 30 days<BR>Data source: <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php" target="new_">USGS</a>';
         return div;
     };
     mapTitle.addTo(myMap);
