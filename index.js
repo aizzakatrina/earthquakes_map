@@ -1,5 +1,5 @@
 // Store our API and data endpoints insides variables
-var earthquakeURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+var earthquakeURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
 var faultLineURL = "data/PB2002_boundaries.json";
 
 // json read of fault line data
